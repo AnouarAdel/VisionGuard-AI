@@ -6,7 +6,7 @@ An AI-powered web application for the preliminary detection of Diabetic Retinopa
 
 ---
 
-## 📖 About The Project
+## About The Project
 
 Diabetic Retinopathy (DR) is a leading cause of vision loss for people with diabetes. Early detection is critical to preventing severe outcomes. **VisionGuard AI** is a tool designed to provide a fast, accessible, and preliminary assessment of DR severity by leveraging a deep learning model.
 
@@ -17,7 +17,7 @@ This project was built to demonstrate a full-stack approach to deploying a machi
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 ### AI & Backend
 
@@ -34,7 +34,7 @@ This project was built to demonstrate a full-stack approach to deploying a machi
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Frontend:**
 *   React.js
@@ -51,7 +51,7 @@ This project was built to demonstrate a full-stack approach to deploying a machi
 
 ---
 
-## 🚀 Running The Project Locally
+## Running The Project Locally
 
 To get a local copy up and running, follow these simple steps.
 
@@ -104,17 +104,6 @@ To get a local copy up and running, follow these simple steps.
 
 ---
 
-## 👤 Author
-
-**Anouar Adel**
-*   Recent graduate with a Master's degree in Artificial Intelligence & Big Data from the University of Khemis Miliana. Passionate about applying machine learning to solve real-world challenges in healthcare and beyond.
-
-*   **GitHub:** [@AnouarAdel](https://github.com/AnouarAdel)
-*   **LinkedIn:** [Anouar Adel](https://www.linkedin.com/in/anouar-adel-0a4928323/)
-*   **Email:** [adelanouar60@gmail.com](mailto:adelanouar60@gmail.com)
-
----
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
