@@ -1,36 +1,65 @@
 # VisionGuard AI
 
-![VisionGuard AI Screenshot](src/assets/screenshot.png)
+![VisionGuard AI Banner](src/assets/banner.png)
 
-An AI-powered web application for the preliminary detection of Diabetic Retinopathy from retinal fundus images.
+This repository contains the source code for **VisionGuard AI**, an AI-powered web application for the preliminary detection of Diabetic Retinopathy. The project features a deep learning model carefully trained to overcome the critical challenge of severe class imbalance common in medical datasets.
 
 ---
 
 ## About The Project
 
-Diabetic Retinopathy (DR) is a leading cause of vision loss for people with diabetes. Early detection is critical to preventing severe outcomes. **VisionGuard AI** is a tool designed to provide a fast, accessible, and preliminary assessment of DR severity by leveraging a deep learning model.
+Diabetic Retinopathy (DR) is a leading cause of vision loss for people with diabetes. Early detection is critical to preventing severe outcomes. **VisionGuard AI** is a tool designed to provide a fast, accessible, and preliminary assessment of DR severity by leveraging a carefully trained deep learning model.
 
 This project was built to demonstrate a full-stack approach to deploying a machine learning solution. It features:
-*   A **Convolutional Neural Network (CNN)**, utilizing the EfficientNetB3 architecture, trained on the APTOS 2019 dataset to classify images into five stages of DR.
+*   A **Convolutional Neural Network (CNN)**, utilizing the EfficientNetB3 architecture, trained on the APTOS 2019 dataset with a sophisticated strategy to handle data imbalance.
 *   A lightweight **Python/Flask backend** that serves the trained TensorFlow model through a REST API.
 *   A responsive and interactive **React frontend** that allows users to upload an image and view the analysis in a user-friendly interface.
 
 ---
 
-## Key Features
+## The AI Model: From Challenge to Solution
 
-### AI & Backend
+The core of this project is a deep learning model trained to classify retinal images. The development process went beyond simple training to address a critical, real-world challenge common in medical imaging datasets.
 
-*   **Deep Learning Model:** A Convolutional Neural Network (CNN) based on the **EfficientNetB3** architecture, trained on the extensive **APTOS 2019 dataset** to classify retinal images.
-*   **5-Stage Classification:** The model accurately categorizes fundus images into five distinct stages of Diabetic Retinopathy (No DR, Mild, Moderate, Severe, Proliferative).
-*   **REST API for Inference:** A lightweight **Flask** server exposes the trained **TensorFlow/Keras** model, making it accessible via a simple `/predict` endpoint.
-*   **Image Preprocessing Pipeline:** The backend automatically handles resizing (to 224x224) and normalization of uploaded images to match the model's input requirements.
+### The Challenge: Severe Class Imbalance
 
-### Frontend Interface
+The APTOS 2019 dataset, like many medical datasets, is highly imbalanced. The "No DR" (healthy) class contains far more images than all the diseased classes combined. A naive training approach results in a model that simply predicts the majority class, making it clinically useless.
 
-*   **Interactive Analysis Tool:** A clean and responsive UI built with **React** that allows users to easily upload an image (via click or drag-and-drop) and receive the model's prediction.
-*   **Session-Based History:** Keeps a gallery of all analyses performed in a session, allowing for easy review and comparison of results.
-*   **Detailed & Visualized Results:** Clearly displays the diagnosis, severity stage, and a detailed description for each analysis in a clickable modal view.
+*Initial Exploratory Data Analysis (EDA) confirmed this challenge:*
+![EDA Chart](src/assets/eda_chart.png)
+
+### The Training Strategy
+
+To overcome this, a multi-stage, robust training strategy was implemented:
+
+1.  **Transfer Learning:** Utilized the powerful **EfficientNetB3** architecture, pre-trained on ImageNet, as a feature extraction base.
+2.  **Two-Phase Fine-Tuning:** The model was trained in two stages: first, training only the final classification layers, and then unfreezing the entire network for fine-tuning with a very low learning rate.
+3.  **Class Weights:** To combat the data imbalance, **manually-tuned class weights** were introduced during training. This forced the model to pay significantly more attention to the minority classes (Mild, Moderate, Severe, and Proliferative DR).
+4.  **Callbacks:** `EarlyStopping` and `ReduceLROnPlateau` were used to automate the training process, preventing overfitting and ensuring the model with the best validation performance was saved.
+
+### The Result: A Balanced Classifier
+
+This strategy resulted in a model with a **weighted F1-score of 0.65** that successfully learned to identify all five stages of the disease, overcoming the initial bias. The table below shows the final F1-score for each class, demonstrating a balanced diagnostic capability.
+
+| Class               | F1-Score |
+| :------------------ | :------: |
+| 0 (No DR)           |   0.91   |
+| 1 (Mild)            |   0.33   |
+| 2 (Moderate)        |   0.53   |
+| 3 (Severe)          |   0.19   |
+| 4 (Proliferative)   |   0.21   |
+
+### Further Experimentation: The Impact of CLAHE
+
+As an additional research step, I hypothesized that enhancing local image contrast could improve feature detection. A second model was trained using **Contrast Limited Adaptive Histogram Equalization (CLAHE)** as a preprocessing step. While this technique significantly improved recall for the most severe stage (Proliferative DR), it decreased performance on the crucial "Moderate" stage. This experiment highlights the importance of empirical testing and analyzing performance trade-offs. The final saved model is the version trained **without** CLAHE, as it provides the best overall performance for a general diagnostic tool.
+
+---
+
+## Model Development
+
+The complete, step-by-step process of data analysis, training, and evaluation for this model can be found in the accompanying Kaggle Notebook:
+
+**[View the Kaggle Notebook](https://www.kaggle.com/code/anouaradel/visionguard-ai-for-diabetic-retinopathy-detection)**
 
 ---
 
@@ -43,10 +72,12 @@ This project was built to demonstrate a full-stack approach to deploying a machi
 *   Framer Motion
 *   React Scroll
 
-**Backend:**
+**Backend & AI:**
 *   Python
 *   Flask
 *   TensorFlow / Keras
+*   EfficientNetB3 (Transfer Learning)
+*   Scikit-learn (for evaluation and class weights)
 *   Pillow
 
 ---
