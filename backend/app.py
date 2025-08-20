@@ -39,7 +39,7 @@ try:
     # First, create the empty model architecture
     model = create_model()
     # Now, load only the learned weights into this architecture
-    model.load_weights('retinaguard_model.keras')
+    model.load_weights('visionguard_model.keras')
     print("--- Model architecture created and weights loaded successfully ---")
 except Exception as e:
     print(f"--- Error creating model or loading weights: {e} ---")
